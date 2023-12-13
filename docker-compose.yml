@@ -1,0 +1,14 @@
+volumes:
+  neo4j-data:
+    driver: local
+
+services:
+  neo4j:
+    image: neo4j
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - neo4j-data:/data
+    environment:
+      - NEO4J_AUTH=none
