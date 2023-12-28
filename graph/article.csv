@@ -1,4 +1,4 @@
-id:int,:ID,publishing_date,title,channel,ressort
+id:long,:ID,publishing_date,title,channel,ressort
 2000059166006,a2000059166006,2019-05-28T16:21:18.000000Z,Sieg der Linksnationalisten im Kosovo,International,Kosovo 
 2000076912964,a2000076912964,2019-05-28T16:21:18.000000Z,Serbische Liste zieht sich aus kosovarischer Regierung zurück,International,Kosovo 
 2000084655060,a2000084655060,2019-05-21T05:16:10.000000Z,"Wie Niki Lauda zu ""Niki nazionale"" wurde",Sport,Niki Lauda

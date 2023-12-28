@@ -1,4 +1,4 @@
-id:int,:ID,community_name,gender,created_at
+id:long,:ID,community_name,gender,created_at
 100041,u100041,Irma la Douce,w,2002-01-15T14:36:32.000000Z
 100055,u100055,Irrer Polterer,m,2012-01-31T14:35:06.117000Z
 100056,u100056,Is doch alles...super!,m,2008-08-09T18:22:35.617000Z
