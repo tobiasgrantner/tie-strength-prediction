@@ -96,7 +96,7 @@ SET i.ignores = ignores
 WITH "MATCH (u1:User) -[i:INTERACTION]- (u2:User)
       WHERE u1.id < u2.id
       RETURN 'u' + u1.id AS `:START_ID`, 'u' + u2.id AS `:END_ID`, i.postings AS `postings:int`, i.upvotes AS `upvotes:int`, i.downvotes AS `downvotes:int`, i.follows AS `follows:int`, i.ignores AS `ignores:int`" AS query
-CALL apoc.export.csv.query(query, "interaction.csv", {})
+CALL apoc.export.csv.query(query, "interaction.csv", {quotes: "ifNeeded"})
 YIELD file, source, format, nodes, relationships, properties, time, rows, batchSize, batches, done, data
 RETURN file, source, format, nodes, relationships, properties, time, rows, batchSize, batches, done, data;
 ```
