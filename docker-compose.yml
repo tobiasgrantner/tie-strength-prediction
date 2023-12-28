@@ -13,3 +13,4 @@ services:
     environment:
       - NEO4J_AUTH=none
       - NEO4JLABS_PLUGINS=["apoc"]
+      - apoc.export.file.enabled=true
