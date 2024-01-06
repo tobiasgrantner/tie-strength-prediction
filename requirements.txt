@@ -1,0 +1,6 @@
+neo4j
+pandas
+neptune-client
+py2neo
+numpy
+scikit-learn
