@@ -14,7 +14,21 @@ Stats:
 - 739095 postings
 - 4352 articles
 
-
-
-
-
+```{cypher}
+CALL {
+    MATCH (u1:User) -[:UPVOTED]- (p:Posting) -[:POSTED_BY]->(u2:User),
+    (p)-[:POSTED_ON]-(a:Article)
+    Return u2, a.channel AS ChannelCount
+    UNION ALL
+    MATCH (u1:User) -[:DOWNVOTED]- (p:Posting) -[:POSTED_BY]->(u2:User),
+    (p)-[:POSTED_ON]-(a:Article)
+    Return u2, a.channel AS ChannelCount
+    UNION ALL
+    MATCH (u1:User)-[:POSTED_BY]-(:Posting)-[:HAS_PARENT]-(p:Posting)-[:POSTED_BY]- (u2:User),
+    (p)-[:POSTED_ON]-(a:Article)
+    Return u2, a.channel AS ChannelCount
+}
+WITH u2, COUNT(DISTINCT ChannelCount) AS ChannelCountAll
+MERGE (u1) -[i:INTERACTION]- (u2)
+SET i.channelCount = ChannelCountAll
+```
