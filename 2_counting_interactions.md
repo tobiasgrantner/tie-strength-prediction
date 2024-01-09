@@ -109,3 +109,14 @@ docker cp tie-strength-prediction-neo4j-1:/var/lib/neo4j/import/interaction.csv 
 ```
 
 We can then copy the CSV files into our repository for later use.
+
+
+## test
+
+```{Cypher}
+MATCH (u1:User) -[:POSTED_BY]- (:Posting) -[:HAS_PARENT]- (:Posting) -[:POSTED_BY]- (u2:User)
+WHERE u1.id < u2.id
+WITH u1, u2, COUNT(*) AS postings
+MERGE (u1) -[i:INTERACTION]- (u2)
+SET i.postings = postings
+```
