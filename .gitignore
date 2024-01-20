@@ -1,3 +1,4 @@
-data/
 venv/
+data/
 graph/interaction-final.csv
+.DS_Store

@@ -14,6 +14,34 @@ SET i.postings = postings
 ```
 
 
+## Channels
+
+```{Cypher}
+:auto
+CALL {
+    MATCH (u1:User) -[:POSTED_BY]- (p1:Posting) -[:HAS_PARENT]- (p2:Posting) -[:POSTED_BY]- (u2:User)
+    WHERE u1.id < u2.id
+    UNWIND [p1, p2] AS p
+    RETURN u1, u2, p
+    UNION
+    MATCH (u1:User) -[:(UPVOTED|DOWNVOTED)]- (p:Posting) -[:POSTED_BY]- (u2:User)
+    WHERE u1.id < u2.id
+    RETURN u1, u2, p
+    UNION
+    MATCH (u2:User) -[:(UPVOTED|DOWNVOTED)]- (p:Posting) -[:POSTED_BY]- (u1:User)
+    WHERE u1.id < u2.id
+    RETURN u1, u2, p
+}
+MATCH (p) -[:POSTED_ON]- (a:Article)
+WITH u1, u2, COUNT(DISTINCT a.channel) AS channels
+CALL {
+    WITH u1, u2, channels
+    MERGE (u1) -[i:INTERACTION]- (u2)
+    SET i.channels = channels
+} IN TRANSACTIONS OF 1000 ROWS
+```
+
+
 ## Upvotes/Downvotes
 
 ```{Cypher}
@@ -95,10 +123,11 @@ SET i.ignores = ignores
 ```{Cypher}
 WITH "MATCH (u1:User) -[i:INTERACTION]- (u2:User)
       WHERE u1.id < u2.id
-      RETURN 'u' + u1.id AS `:START_ID`, 'u' + u2.id AS `:END_ID`, i.postings AS `postings:int`, i.upvotes AS `upvotes:int`, i.downvotes AS `downvotes:int`, i.follows AS `follows:int`, i.ignores AS `ignores:int`" AS query
+      RETURN 'u' + u1.id AS `:START_ID`, 'u' + u2.id AS `:END_ID`, i.postings AS `postings:long`, i.channels AS `channels:long`, i.upvotes AS `upvotes:long`, i.downvotes AS `downvotes:long`, i.follows AS `follows:long`, i.ignores AS `ignores:long`
+      ORDER BY u1.id, u2.id" AS query
 CALL apoc.export.csv.query(query, "interaction.csv", {quotes: "ifNeeded"})
 YIELD file, source, format, nodes, relationships, properties, time, rows, batchSize, batches, done, data
-RETURN file, source, format, nodes, relationships, properties, time, rows, batchSize, batches, done, data;
+RETURN file, source, format, nodes, relationships, properties, time, rows, batchSize, batches, done, data
 ```
 
 Once the aggregation is done, we can export the `INTERACTION` relationship to a CSV file, so that it can be imported into the Neo4j database like the other relationships.
@@ -109,3 +138,14 @@ docker cp tie-strength-prediction-neo4j-1:/var/lib/neo4j/import/interaction.csv 
 ```
 
 We can then copy the CSV files into our repository for later use.
+
+
+## test
+
+```{Cypher}
+MATCH (u1:User) -[:POSTED_BY]- (:Posting) -[:HAS_PARENT]- (:Posting) -[:POSTED_BY]- (u2:User)
+WHERE u1.id < u2.id
+WITH u1, u2, COUNT(*) AS postings
+MERGE (u1) -[i:INTERACTION]- (u2)
+SET i.postings = postings
+```
