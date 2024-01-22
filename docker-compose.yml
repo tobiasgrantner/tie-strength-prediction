@@ -12,6 +12,6 @@ services:
       - neo4j-data:/data
     environment:
       - NEO4J_AUTH=none
-      - NEO4JLABS_PLUGINS=["apoc"]
+      - NEO4JLABS_PLUGINS=["apoc", "graph-data-science"]
       - apoc.export.file.enabled=true
       - NEO4J_server_memory_heap_max__size=5GB
