@@ -6,7 +6,9 @@ on this project as a part of the course [Social Network
 Analysis](https://tiss.tuwien.ac.at/course/educationDetails.xhtml?semester=2023W&courseNr=194050)
 at the Technical University of Vienna.
 
-## Folder and File Structure (view in raw md file)
+## Folder and File Structure
+
+```
 .
 ├── 1_data_import.ipynb
 ├── 2_counting_interactions.ipynb
@@ -44,10 +46,12 @@ at the Technical University of Vienna.
 │   └── user.csv
 ├── README.md
 └── requirements.txt
+```
 
 ## Prerequisites
-- Install Docker Desktop (for Neo4j)
+- Docker and Docker-Compose
 - Python environment
+    - Libraries can be found in [requirements.txt](requirements.txt)
 
 ## 1. Data import
 To be able to work with the data properly, we store it in a [Neo4j](https://neo4j.com/)
