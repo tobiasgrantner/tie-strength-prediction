@@ -3,3 +3,8 @@ pandas
 py2neo
 numpy
 scikit-learn
+seaborn
+matplotlib
+neo4j
+matplotlib
+typing
